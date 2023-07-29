@@ -1,0 +1,39 @@
+{% extends 'wordofmouth/base.html' %}
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: django-allauth
+*  Author: Raymond Penners and other contributors
+*  Date: 3/25/2022
+*  Date Cited: 4/30/2022
+*  Code version: 0.50.0
+*  URL: https://github.com/pennersr/django-allauth
+*  Software License: MIT License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Overrides django-allauth's socialaccount login page for
+  integration with Bootstrap. Largely unmodified.
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+{% load i18n %}
+
+{% block content %}
+{% if process == "connect" %}
+<h1>{% blocktrans with provider.name as provider %}Connect {{ provider }}{% endblocktrans %}</h1>
+
+<p>{% blocktrans with provider.name as provider %}You are about to connect a new third party account from {{ provider }}.{% endblocktrans %}</p>
+{% else %}
+<h1>{% blocktrans with provider.name as provider %}Sign In Via {{ provider }}{% endblocktrans %}</h1>
+
+<p>{% blocktrans with provider.name as provider %}You are about to sign in using a third party account from {{ provider }}.{% endblocktrans %}</p>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  {% bootstrap_button "Continue" button_type="submit" %}
+</form>
+{% endblock %}

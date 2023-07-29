@@ -1,0 +1,7 @@
+{% extends 'wordofmouth/base.html' %}
+
+{% block content %}
+{% with input_=recipe display_='long' %}
+    {% include "wordofmouth/renderers/recipe.html" %}
+{% endwith %}
+{% endblock %}

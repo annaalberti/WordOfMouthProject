@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "wordofmouthsunny",
+  "private_key_id": "3df3875e526533633349df1f91d4250c46de84f9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDjT4sxmOfXyfAG\nJ9CynnkVLZwsjFEXcqxfYn9I8kiVw1B1mU5uo0i8hvufWsRGntZWt8sbTFEX5vik\nmBjpKL4+CEvEqopZPaBNUVl2q52dFQC1t2b8aR8UOqEAAVrXgociEkGDsBj35d0x\nOW/p0Dx0Q/s2VTK6bNYD67S7IkVAYmA6gm193L5U2CbOtlih3UzllCaloH/ZSqWe\nPoqpfD4/FfX1O7wc5jqruMxB6SHmVKtOoVWsoQY24dotYKDl8WxeRD1iqOalZMSY\nt6j1jZ83gu8to6Zg6pHLigKaZZn9IvCuXG1Eftabc4icxTNElbTaFj7LIjge8PWh\nmsBmnYd3AgMBAAECggEAJYdIb9PS0ymf2yRPrG3Fh92T3zb7XGeuVcEpSp3VpgQt\nEH1TGakTpSyT9mdB6Hbo5EBL5CHhcZTMkEAcPMJhRlSQTdPqK3mlMZ6wqosC5qBF\nEbtJ4Xppiyly01Fl8ha2wMVK07cLKEJnFm1pMK0Ujg17OCkwyt6VJuiPWiX6UPqd\nRQOFa8FwEORjsGcIim9LFs0K/XbY8pC7nDmTo8vUB9euuUJ4mybhDlgG2+X/O+r8\n9iDhoLmqAL0zSrTAydSeLQxLR+kjQPWdyINcppCxPUXJXvQbDR8nptv3p1kfMv2R\n59W5xJMooMJvgagzYchkUJdiG+DEd4UZWAmZtJDyQQKBgQD2IRd/tN56CtCJkW9d\nJmjtGD1UQmBfYt9trsLjIN5hc22Hn5MOzwsO3LKAhTFKSXj7KCsmxpe4hQB6h5I8\nRKIB9V5w7vzHC2SZRSPQ8NvAVLvYAahTbXivsS/3pf+i/bt7nqnLEjlG74wELeGY\ntiKLL+JSpc6IjKHukfqzWOWAeQKBgQDsbT/nppJJiKucXm5suyajm+8mLdSPKE0q\nkZKPdnVcYKCcHiv+FoERwP4Io7aJrdc4HvEH9rWsFpiAHHuwqMDjahHMWjRUXF6m\nNn7+3p4ws9wJtyldtfi57ZiifSJU+NsV6lLqQd2GHWY7v28sKOguqFEyYsZJQmVX\nkolkEhqrbwKBgBUI9PosGgtyGyp2rH7YhoUk2jD2T0g3qgK0ueExcPABLm413Bqa\n5UYK5JKJT5Iav2UvpKh2tobFjynppjzSXMowDzc1pZLZTWqv9wSnYRCJ7VfjpGAk\n7fiN+xx+Kl/isYA6Kia50v1WAbBlv28OudsNZ5lKpGEVK8242iUzxsF5AoGAF7dF\nx8jvt6yb+k2GqiWD1LmZnazPO6UBSJndp8JsN14B/mcQZqZ/P/aqBNfXQaxMgHaq\nGvBmfOKvXXp99dSXtLg5HNSXlzbEz8t7pblTCPOhyN+0qI/OaWgp/XKr9PYZk/Mz\nagg9XmyoiqnDTxyzXarIqlM6LLMaU1SBr6YZQsUCgYAFLB93YQejbiXMveZm5NYV\n8QjmLlK0Pz94adEqof7A54/nIxpXdyuezF9lnkq6aexNU4zfDOwbxV5UF8ueKTu1\nFdtPSUnTcluv1RVPOQ7PYufe3a5Cbkr/4mGe+kK3A1T5ohc3sMwJoXFqdA5wdnQX\nwz5ZeXyqwEYESaMprm7CZg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "google-drive-sdk@wordofmouthsunny.iam.gserviceaccount.com",
+  "client_id": "111649825388488998212",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/google-drive-sdk%40wordofmouthsunny.iam.gserviceaccount.com"
+}

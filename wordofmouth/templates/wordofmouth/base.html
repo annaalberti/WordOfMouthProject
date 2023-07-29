@@ -1,0 +1,28 @@
+{% extends 'wordofmouth/bootstrap.html' %}
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: Example project for django-bootstrap-v5
+*  Author: Zostera (https://zostera.nl/) and the django-bootstrap-v5 documentation writers
+*  Date: 12/30/2021
+*  Date Cited: 4/30/2022
+*  Code version: GitHub revision e742aef
+*  URL: https://github.com/zelenij/django-bootstrap-v5/tree/main/example
+*  Software License: BSD-3-Clause License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+
+{% block auth %}
+{% comment %}<!--
+  The following series of bootstrap tags originates from
+  the 'Example project for django-bootstrap-v5' referenced
+  in the django-bootstrap-v5 documentation 
+-->{% endcomment %}
+<div class="container">
+	{% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+	{% block content %}{% endblock %}
+</div>
+{% endblock %}

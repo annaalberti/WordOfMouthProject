@@ -1,0 +1,673 @@
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: <input>: The Input (Form Input) element
+*  Author: MDN Web Docs
+*  Date: 4/25/2022
+*  Date Cited: 5/2/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1):  https://getbootstrap.com/docs/5.0/components/card/
+*  URL (2):  https://getbootstrap.com/docs/5.0/helpers/text-truncation/
+*  URL (3):  https://getbootstrap.com/docs/5.0/components/modal/
+*  URL (4):  https://getbootstrap.com/docs/5.0/components/tooltips/
+*  URL (5):  https://getbootstrap.com/docs/5.0/utilities/spacing/
+*  URL (6):  https://getbootstrap.com/docs/5.0/components/buttons/
+*  URL (7):  https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (8):  https://getbootstrap.com/docs/5.0/utilities/flex/
+*  URL (9):  https://getbootstrap.com/docs/5.0/forms/form-control/
+*  URL (10): https://getbootstrap.com/docs/5.0/utilities/text/
+*  URL (11): https://getbootstrap.com/docs/5.0/utilities/shadows/
+*  URL (12): https://getbootstrap.com/docs/5.0/utilities/borders/
+*  URL (13): https://getbootstrap.com/docs/5.0/utilities/background/
+*  URL (14): https://getbootstrap.com/docs/5.0/forms/select/
+*  Software License: MIT License
+*
+*  Title: Bootstrap checkbox list
+*  Author: MDBootstrap
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  URL: https://mdbootstrap.com/snippets/jquery/mdbootstrap/821010
+*  Software License: MIT License
+*
+*  Title: Build A Blog Comment Section - Django Blog #33
+*  Author: John Elder
+*  Date: 7/16/2020
+*  Date Cited: 3/20/2022
+*  URL: https://www.youtube.com/watch?v=hZrlh4qU4eQ
+*  Software License: Copyright of Codemy.com
+*
+*  Title: django-bootstrap-icons
+*  Author: Christian Wiegand
+*  Date: 2022
+*  Date Cited: 4/30/2022
+*  Code version: 0.7.5
+*  URL: https://github.com/christianwgd/django-bootstrap-icons
+*  Software License: MIT License
+*
+*  Title: Django documentation
+*  Author: Django Software Foundation and individual contributors
+*  Date: December 2021
+*  Date Cited: 4/30/2022
+*  Code version: 4.0
+*  URL: https://docs.djangoproject.com/en/4.0/ref/templates/builtins/
+*  Software License: BSD-3-Clause License
+*
+*  Title: Interact with the clipboard
+*  Author: MDN Web Docs
+*  Date: 3/24/2022
+*  Date Cited: 5/3/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Interact_with_the_clipboard
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: Stack Overflow answer to “Card image width not equal when I gave max-height”
+*  Author: Udayavani (https://stackoverflow.com/users/11372871/udayavani)
+*  Date: 6/4/2019
+*  Date Cited: 5/3/2022
+*  URL: https://stackoverflow.com/questions/56437535/card-image-width-not-equal-when-i-gave-max-height
+*  Software License: CC BY-SA 4.0
+*
+*  Title: Stack Overflow answer to “I need an unordered list without any bullets”
+*  Author: Paul Dixon (https://stackoverflow.com/users/6521/paul-dixon)
+*  Date: 6/22/2009
+*  Date Cited: 4/30/2022
+*  URL: https://stackoverflow.com/questions/6325681/passing-a-user-request-to-forms
+*  Software License: CC BY-SA 2.5
+*
+*  Title: Stack Overflow answer to “Prevent linebreak after </div>”
+*  Author: Jeff Rupert (https://stackoverflow.com/users/227699/jeff-rupert)
+*  Date: 8/26/2010
+*  Date Cited: 4/30/2022
+*  URL: https://stackoverflow.com/questions/3576605/prevent-linebreak-after-div
+*  Software License: CC BY-SA 2.5
+*
+*  Title: User Registration in Django using Google OAuth
+*  Author: Geoffrey Mungai
+*  Date: 12/18/2020
+*  Date Cited: 4/30/2022
+*  URL: https://github.com/section-engineering-education/engineering-education/blob/master/content/articles/django-google-oauth/index.md
+*  Software License: Apache-2.0 License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% comment %}<!--
+  This document makes use of Bootstrap icons by means of
+  the 'django-bootstrap-icons' library and its associated
+  template tags, the documentation of which can be found
+  at the relevant URL listed at the top of this document.
+-->{% endcomment %}
+
+{% comment %}<!--
+  Based on a Stack Overflow answer by user Jeff Rupert
+  for which a URL has been provided at the top of this
+  document, a number of the following elements have the
+  display style set to inline to prevent line breaks
+  between successive <div> elements, allowing <div> elements
+  to be easily arranged horizontally.
+-->{% endcomment %}
+
+{% comment %}<!--
+    Render 'function' for Recipe
+
+    Inputs:
+        input_      Recipe object to render
+        display_    displaymode string (default='short')
+                        'long'    display all elements
+                        'short'   only display intro
+                        'card'    bootstrap card
+                        'list'    display as a list block
+
+    Sources:
+        Checkboxes: https://mdbootstrap.com/snippets/jquery/mdbootstrap/821010
+
+-->{% endcomment %}
+{% load bootstrap5 %}
+{% load bootstrap_icons %}
+{% load socialaccount %}
+{% load wordofmouth_extras %}
+
+{% if input_ %}
+{% if display_ == 'long' %}
+<!-- 'long' display -->
+<br>
+<div class="row">
+  <div class="col text-start">
+  <h1>{{ input_.title }}</h1>
+  {% if input_.parent.all.0.user.username %}
+  <p>Parent Recipe Author: {{ input_.parent.all.0.user.username }}</p>
+  {% endif %}
+  <p>Author: {{ input_.user.username}}</p>
+
+  {% comment %}<!--
+    The following pair of buttons have tooltips enabled,
+    created by following the 'Bootstrap 5 Documentation,'
+    the relevant link for which can be found at the top
+    of this document.
+-->{% endcomment %}
+  <div class="col text-end">
+    <a
+      href="{% url 'wordofmouth:fork_recipe' input_.id %}"
+      class="btn btn-primary py-1"
+      data-bs-toggle="tooltip"
+      title="Fork off of this recipe (make a copy) to share your own interpretation!"
+    >
+      Fork {% custom_icon 'fork' size='2em' %}
+    </a>
+    <span
+      data-bs-toggle="modal"
+      data-bs-target="#historyModal"
+    > <button
+        type='button'
+        class='btn btn-primary py-2'
+        data-bs-toggle="tooltip"
+        title="View this recipe's forking history (displays original and derived works)"
+      >History</button>
+    </span>
+    <button
+      type="button"
+      class="btn btn-primary py-2"
+      data-bs-toggle="modal"
+      data-bs-target="#shareModal">Share recipe!</button>
+    {% if user == input_.user %}
+    <a href="{% url 'wordofmouth:edit_recipe' input_.id %}" class="btn btn-primary py-2">
+      Edit
+    </a>
+    <button
+      type='button'
+      class='btn btn-danger py-2'
+      data-bs-toggle="modal"
+      data-bs-target="#deleteRecipeModal">Delete</button>
+    {% endif %}
+  </div>
+</div>
+<br>
+
+<div class="border p-2 shadow bg-white mt-3 rounded">
+<h3><u>Recipe Description:</u></h3>
+<p>{{ input_.intro }}</p>
+<h3><u>Expected Cook Time</u>: {{ input_.time }}</h3>
+
+{% comment %}<!--
+  Sets list-style-type to none to remove bullets from
+  unordered list, following from a Stack Overflow answer
+  by user Paul Dixon, for which the relevant URL can be
+  found at the top of this document.
+-->{% endcomment %}
+<div class="list-group" style="list-style-type:none;">
+  <li class="container m-2">
+    <div class="row align-items-start">
+      <div class="row">
+        <div class="col-4 border">
+          <br><h1>Ingredients</h1>
+
+          {% comment %}<!--
+            Checkmarks to mark off ingredients once obtained. Based
+            off of a code snippet from MDBootstrap named 'Bootstrap
+            checkbox list,' for which a URL has been provided at the
+            top of this document.
+       -->{% endcomment %}
+          <ul class="list-group list-group-flush" style="list-style-type:none;">
+            {% for recipeblock in input_.recipeblock_set.all %}
+            {% if recipeblock.isIngredient %}
+            <li>
+              <!-- Default is unchecked -->
+              <div class="custom-control custom-checkbox text-start">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="check{{recipeblock.pk}}"
+                  unchecked
+                >
+                <label class="custom-control-label" for="check{{recipeblock.pk}}">
+                  {% with input_=recipeblock %}
+                  {% include "wordofmouth/renderers/recipeblock.html" %}
+                  {% endwith %}
+                </label>
+              </div>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      <div class="col-4 border text-start">
+        <center><br><h1>Steps</h1></center>
+        <ol>
+          {% for recipeblock in input_.recipeblock_set.all %}
+          {% if recipeblock.isStep %}
+          <li>
+            {% with input_=recipeblock %}
+            {% include "wordofmouth/renderers/recipeblock.html" %}
+            {% endwith %}
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="col-4 border">
+        <br><h1>Images</h1>
+        <ol>
+          {% for recipeblock in input_.recipeblock_set.all %}
+          {% if recipeblock.isImage %}
+            <li>
+              {% with input_=recipeblock %}
+              {% include "wordofmouth/renderers/recipeblock.html" %}
+              {% endwith %}
+            </li>
+          {% endif %}
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </li>
+</div>
+</div>
+<br>
+<div class="border p-2 shadow bg-white rounded">
+  <h3>Comments</h3>
+  
+  {% comment %}<!--
+    Calculate the recipe's rating using template tags. Abuses
+    the widthratio tag found in the 'Django documentation' to
+    perform integer multiplication. A URL to the documentation
+    has been provided at the top of this document.
+-->{% endcomment %}
+  {% with input_.calc_rating as ratingNum %}
+  <p>Rating:
+    {% for i in '12345' %}
+    {% if ratingNum|div:i %}
+    {% bs_icon 'star-fill' color='orange' %}
+    {% else %}
+    {% widthratio i 1 10 as i_10 %}
+    {% widthratio ratingNum 1 -10 as ratingNum_neg_10 %}
+    {% with ratingNum_neg_10|add:i_10 as delta %}
+    {% if delta < 10 and delta >= 5 %}
+    {% bs_icon 'star-half' color='orange' %}
+    {% else %}
+    {% bs_icon 'star' color='orange' %}
+    {% endif %}
+    {% endwith %}
+    {% endif %}
+    {% endfor %}
+  </p>
+  <p hidden>Rating: {{ ratingNum }}</p>
+  {% endwith %}
+  
+  {% comment %}<!--
+    The following authentication template tag and later
+    login link are sourced from 'User Registration in Django
+    using Google OAuth,' an educational article published as
+    part of Section.io's Engineering Education Program.
+-->{% endcomment %}
+  {% if user.is_authenticated %}
+  <form action="{% url 'wordofmouth:rate_post' input_.pk %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <select class="form-select w-auto" name="rate_num" value="5" style="display: inline;">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5" selected value>5</option>
+      </select>
+      <button
+        type="submit",
+        name="rate",
+        value="{{ input_.id }}"
+        class="btn btn-primary">Rate</button>
+  </form>
+  <!-- check to see if user liked recipe  -->
+  {% if user in input_.likes.all %}
+  
+  <!-- button that triggers unlike func in views.py  -->
+  <form
+    action="{% url 'wordofmouth:unlike_post' input_.pk %}"
+    method="post"
+    style="display: inline;"
+  > {% csrf_token %}
+    <button
+      type="submit",
+      name="input_id",
+      value="{{ input_.id }}"
+      class="btn btn-primary m-2"
+    > Unlike {% bs_icon 'hand-thumbs-down' %}
+  {% else %}
+  <form
+    action="{% url 'wordofmouth:like_post' input_.pk %}"
+    method="post"
+    style="display: inline;"
+  > {% csrf_token %}
+    <button
+      type="submit",
+      name="input_id",
+      value="{{ input_.id }}"
+      class="btn btn-primary m-1"
+    > Like {% bs_icon 'hand-thumbs-up' %}
+  {% endif %}
+    </button> -- {{ input_.likes.count }}
+  </form>
+  <br><br>
+  
+   {% comment %}<!--
+     The following section was created using the YouTube tutorial
+     video presented by John Elder of Codemy.com
+-->{% endcomment %}
+  <!-- comment section  -->
+  <form action="{% url 'wordofmouth:comment_post' input_.pk %}" method="post">
+  {% csrf_token %}
+  {% comment %}<!--
+    Enforces a character limit on text input, using
+    the MDN Web Docs for the Form Input element
+-->{% endcomment %}
+  <textarea
+    class="form-control"
+    rows="3"
+    name="comment_text"
+    placeholder="Enter your comment here"
+    maxlength="2000"></textarea>
+  <button
+    type="submit",
+    name="comment",
+    value="{{ input_.id }}"
+    class="btn btn-primary m-1">Post Comment</button>
+  </form>
+  {% else %}
+  {% comment %}<!--
+    Aforementioned login link.
+-->{% endcomment %}
+  <a href="{% provider_login_url 'google' %}">Login With Google to Comment on This Recipe</a>
+  {% endif %}
+  <br><br>
+  {% for comment in input_.comment_set.all %}
+  <div class="list-group-item">
+    <div class="row">
+      <h5 class="col mb-1 text-start">{{ comment.user.username }}</h5>
+      {% if user == comment.user %}
+      <small class="col">Posted at {{ comment.postTime }}</small>
+      <div class="col text-end">
+      <button
+        class="btn btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#deleteCommentModal{{ comment.pk }}">Delete</button>
+      <form
+        action="{% url 'wordofmouth:editCommentView' input_.pk comment.pk %}"
+        method="post"
+        style="display: inline;">
+        {% csrf_token %}
+        <button
+          class="btn btn-primary"
+          type='submit'
+          name='commentPK'
+          value="{{ comment.pk }}">Edit</button>
+      </form>
+      </div>
+      {% else %}
+      <small class="col text-end">Posted at {{ comment.postTime }}</small>
+      {% endif %}
+    </div>
+    <hr>
+    <p class="mb-1 text-start">{{ comment.commentText }}</small>
+  </div>
+  <br>
+  
+  {% comment %}<!--
+  The following modal dialog box is based off of the
+  example provided by the 'Bootstrap 5 Documentation,'
+  for which the relevant URL can be found at the top of
+  this document.
+-->{% endcomment %}
+  <!-- Delete Comment Modal -->
+  <div class="modal fade" id="deleteCommentModal{{ comment.pk }}" tabindex="-1" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteCommentModalLabel{{ comment.pk }}">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">Are you sure you want to delete this comment?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <form
+            action="{% url 'wordofmouth:deleteComment' input_.pk comment.pk %}"
+            method="post"
+            style="display: inline;">
+            {% csrf_token %}
+            <button
+              class="btn btn-danger"
+              type='submit'
+              name='commentPK'
+              value="{{ comment.pk }}">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<br>
+
+{% comment %}<!--
+  The following modal dialog boxes are based off of the
+  example provided by the 'Bootstrap 5 Documentation,'
+  for which the relevant URL can be found at the top of
+  this document.
+-->{% endcomment %}
+
+<!-- Share Recipe URL Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="share" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="shareModalLabel">Share with friends</h5>
+        <button
+          type="button"
+          class="btn-close"
+          onclick="copyLinkToClipboardClose()"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          ></button>
+      </div>
+      <div class="modal-body">
+        <input type=text id="recipeurl" value="{{ request.build_absolute_uri }}" readonly>
+      </input>
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick="copyLinkToClipboard()">Copy link</button>
+        <p id="p1"></p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          onclick="copyLinkToClipboardClose()">Close</button>
+      </div>
+    </div>
+  </div>
+  
+  {% comment %}<!--
+    Copies recipe URL to clipboard using the clipboard API
+    as documented by MDN in 'Interact with the clipboard'
+-->{% endcomment %}
+  <script>
+    function copyLinkToClipboard(){
+      var url = document.getElementById("recipeurl")
+      navigator.clipboard.writeText(url.value)
+      document.getElementById("p1").innerHTML = "Link Copied!"
+    }
+    function copyLinkToClipboardClose(){
+      document.getElementById("p1").innerHTML = ""
+    }
+  </script>
+</div>
+
+<!-- History Modal -->
+<div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="history" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="historyModalLabel">Recipe History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <b><label for="parent">Parent Recipe:</label></b>
+        {% with parent=input_.parent.all.0 %}
+        {% if parent %}
+        <a id="parent" href="{% url 'wordofmouth:recipe_detail' parent.id %}"
+           class="list-group-item list-group-item-action"">
+          {{ parent.title }}
+        </a>
+        {% else %}
+          None
+        {% endif %}
+        {% endwith %}
+        <br><br>
+        <b><label for="children">Child Recipes:</label></b>
+        {% if input_.children.all %}
+        <div class="overflow-auto" style="max-height: 30vh;">
+          <ul id="children">
+          {% for child in input_.children.all %}
+            <li>
+              <a href="{% url 'wordofmouth:recipe_detail' child.id %}"
+                 class="list-group-item list-group-item-action">
+                {{ child.title }}
+              </a>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+        {% else %}
+          None
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Recipe Modal -->
+<div class="modal fade" id="deleteRecipeModal" tabindex="-1" aria-labelledby="delete" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteRecipeModalLabel">Confirm Deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Are you sure you want to delete this recipe?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form
+          action="{% url 'wordofmouth:deleteRecipe' input_.pk %}"
+          method="post"
+          style="display: inline;">
+          {% csrf_token %}
+          <button
+            class="btn btn-danger"
+            type='submit'
+            name='recipePK'
+            value="{{ input_.pk }}">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-------------------->
+{% elif display_ == 'card' %}
+<!-- 'card' display -->
+  {% comment %}<!--
+    Makes use of Bootstrap cards based on the documentation
+    provided by the 'Bootstrap 5 Documentation,' for which
+    the relevant URL can be found at the top of this document.
+-->{% endcomment %}
+  <div class="card" style="width: 18rem;">
+    <!-- use first image for preview -->
+    {% with blocks=input_.recipeblock_set.all|dictsortreversed:"isImage" %}
+    <!-- wrap image as a link -->
+    <a href="{% url 'wordofmouth:recipe_detail' input_.id %}">
+      {% if blocks.0 and blocks.0.isImage %}
+      
+      {% comment %}<!--
+        The following image tags make use of min/max height
+        along with a zoomed/cropped image fill policy to
+        create uniformly sized card. Method sourced from
+        a Stack Overflow answer by user Udayavani.
+   -->{% endcomment %}
+      <img
+        class="card-img-top"
+        src="{{ blocks.0.src.url }}"
+        alt="IMAGE"
+        style="min-height:30vh; max-height:30vh; object-fit:cover"
+      >
+      {% else %}
+      <!-- use default image -->
+      {% load static %}
+      <img
+        class="card-img-top"
+        src="{% static 'wordofmouth/img/grey.jpg' %}"
+        alt="DEFAULT"
+        style="min-height:30vh; max-height:30vh;"
+      >
+      {% endif %}
+    </a>
+    {% endwith %}
+
+    <div class="card-body">
+    <h5 class="card-title">{{ input_.title }}</h5>
+    
+    {% comment %}<!--
+      Truncates the recipe intro for longer recipe descriptions
+      using a Bootstrap helper, as demonstrated by the 'Bootstrap
+      5 Documentation' at the provided URL.
+ -->{% endcomment %}
+    <p class="card-text text-truncate">{{ input_.intro }}</p>
+    <a href="{% url 'wordofmouth:recipe_detail' input_.id %}" class="btn btn-primary">View</a>
+    {% if user == input_.user %}
+    <a href="{% url 'wordofmouth:edit_recipe' input_.id %}" class="btn btn-primary">Edit</a>
+    {% endif %}
+  </div>
+</div>
+<!-------------------->
+{% elif display_ == 'list' %}
+<!-- 'list' display -->
+<a href={% url 'wordofmouth:recipe_detail' recipe.id %} class="list-group-item list-group-item-action">
+  <div class="row align-items-center">
+    <div class="col text-start">
+      <h5 class="mb-1">{{ input_.title }}</h5>
+    </div>
+    {% if user == input_.user %}
+    <div class="col text-end">
+      <form action="{% url 'wordofmouth:edit_recipe' input_.id %}">
+        <button class="btn btn-primary">Edit</button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+  <div class="row text-start">
+    <p class="mb-1">{{ input_.intro }}</p>
+  </div>
+</a>
+{% else %}
+<!-- 'short' display (default) -->
+{{ input_.title }}
+<!------------------------------->
+{% endif %}{% else %}NULL{% endif %}

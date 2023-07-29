@@ -1,0 +1,48 @@
+{% extends "wordofmouth/base.html" %}
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Code version: 5.1.3
+*  URL (1): https://getbootstrap.com/docs/5.0/utilities/spacing/
+*  URL (2): https://getbootstrap.com/docs/5.0/utilities/flex/
+*  Software License: MIT License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+
+{% block content %}
+<center>
+  {% if searched %}
+  <h1>You searched for {{ searched }}</h1>
+  <br>
+  <div class="d-flex flex-wrap">
+    {% for recipe in recipes %}
+    <div class='m-1'>
+      {% with input_=recipe display_='card' %}
+      {% include "wordofmouth/renderers/recipe.html" %}
+      {% endwith %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <h1>Hey! You forgot to search for a recipe...</h1>
+  {% endif %}
+</center>
+{% endblock %}

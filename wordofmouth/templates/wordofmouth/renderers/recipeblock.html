@@ -1,0 +1,16 @@
+{% comment %}<!--
+    Render 'function' for RecipeBlock
+    
+    Inputs:
+        input_      RecipeBlock object to render
+-->{% endcomment %}
+
+{% if input_ %}
+{% if input_.isIngredient %}
+{% include "wordofmouth/renderers/ingredient.html" %}
+{% elif input_.isStep %}
+{% include "wordofmouth/renderers/step.html" %}
+{% elif input_.isImage %}
+{% include "wordofmouth/renderers/image.html" %}
+{% endif %}
+{% else %}NULL{% endif %}

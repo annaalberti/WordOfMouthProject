@@ -1,0 +1,11 @@
+Django
+django-bootstrap-v5
+django-heroku
+dj-database-url
+gunicorn
+whitenoise
+django-allauth
+django-polymorphic
+django-googledrive-storage
+Pillow
+django_bootstrap_icons

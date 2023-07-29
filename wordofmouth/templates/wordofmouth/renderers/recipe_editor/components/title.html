@@ -1,0 +1,59 @@
+
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: <input>: The Input (Form Input) element
+*  Author: MDN Web Docs
+*  Date: 4/25/2022
+*  Date Cited: 5/2/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1): https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (2): https://getbootstrap.com/docs/5.0/components/list-group/
+*  URL (3): https://getbootstrap.com/docs/5.0/forms/form-control/
+*  URL (4): https://getbootstrap.com/docs/5.0/utilities/flex/
+*  Software License: MIT License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+
+<li class="list-group-item list-group-item-action form-group">
+  <div class="row justify-content-end align-items-center">
+    <div class="col">
+      <b><label for="text">Title</label></b>
+      {% comment %}<!--
+        Enforces a character limit on text input, using
+        the MDN Web Docs for the Form Input element
+   -->{% endcomment %}
+      <input type="text"
+        class="form-control fields"
+        id="text"
+        placeholder="Recipe title"
+        maxlength="150"
+        value="{{ input_ }}"
+        name="Title"
+        required
+      >
+    </div>
+  </div>
+</li>

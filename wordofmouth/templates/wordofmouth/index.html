@@ -1,0 +1,11 @@
+{% extends "wordofmouth/base.html" %}
+
+{% block content %}
+{% with mode_='general' %}
+{% with list1_=recList list2_=recList %}
+{% with display1_='card' display2_='list' %}
+    {% include "wordofmouth/recipe_viewer.html" %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'wordofmouth/base.html' %}
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: django-allauth
+*  Author: Raymond Penners and other contributors
+*  Date: 3/25/2022
+*  Date Cited: 4/30/2022
+*  Code version: 0.50.0
+*  URL: https://github.com/pennersr/django-allauth
+*  Software License: MIT License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Overrides django-allauth's account logout page for
+  integration with Bootstrap. Largely unmodified.
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Out" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Sign Out" %}</h1>
+
+<p>{% trans 'Are you sure you want to sign out?' %}</p>
+
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+  {% endif %}
+  {% bootstrap_button "Sign Out" button_type="submit"%}
+</form>
+{% endblock %}

@@ -1,0 +1,258 @@
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1): https://getbootstrap.com/docs/5.0/utilities/spacing/
+*  URL (2): https://getbootstrap.com/docs/5.0/components/buttons/
+*  URL (3): https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (4): https://getbootstrap.com/docs/5.0/utilities/flex/
+*  URL (5): https://getbootstrap.com/docs/5.0/components/list-group/
+*  Software License: MIT License
+*
+*  Title: django-bootstrap-icons
+*  Author: Christian Wiegand
+*  Date: 2022
+*  Date Cited: 4/30/2022
+*  Code version: 0.7.5
+*  URL: https://github.com/christianwgd/django-bootstrap-icons
+*  Software License: MIT License
+*
+*  Title: Element.nextElementSibling
+*  Author: MDN Web Docs
+*  Date: 3/29/2022
+*  Date Cited: 4/30/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Web/API/Element/nextElementSibling
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: How To Create Dynamic Form Fields In Javascript
+*  Author: Abdul Basit
+*  Date: 1/24/2022
+*  Date Cited: 4/30/2022
+*  URL: https://toolsnull.com/code-solution/how-to-create-dynamic-form-fields-in-javascript
+*  Software License: Copyright 2021-2022 by ToolsNull
+*
+*  Title: Node.insertBefore()
+*  Author: MDN Web Docs
+*  Date: 4/19/2022
+*  Date Cited: 4/30/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: Sending form data
+*  Author: MDN Web Docs
+*  Date: 4/27/2022
+*  Date Cited: 4/30/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: Stack Overflow answer to “Preview an image before it is uploaded”
+*  Author: Ivan Baev (https://stackoverflow.com/users/344437/ivan-baev)
+*  Date: 12/16/2010
+*  Date Cited: 4/30/2022
+*  URL: https://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+*  Software License: CC BY-SA 2.5
+*
+*  Title: Stack Overflow answer to “Retrieve the position (X,Y) of an HTML element”
+*  Author: Andy E (https://stackoverflow.com/users/94197/andy-e)
+*  Date: 6/9/2012
+*  Date Cited: 4/30/2022
+*  URL: https://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
+*  Software License: CC BY-SA 3.0
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% comment %}<!--
+  This document makes use of Bootstrap icons by means of
+  the 'django-bootstrap-icons' library and its associated
+  template tags, the documentation of which can be found
+  at the relevant URL listed at the top of this document.
+-->{% endcomment %}
+
+{% comment %}<!--
+    'class object' for Recipe Editor
+
+    Inputs:
+        mode_      Editor mode:
+                       'add'
+                       'edit'
+
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% comment %}<!--
+  Based off of the JavaScript-based dynamic form presented on
+  toolsnull.com in 'How To Create Dynamic Form Fields In
+  Javascript'.
+-->{% endcomment %}
+<script>
+    // Removes a fields
+    function remove_field(field){
+        field.parentNode.parentNode.parentNode.remove();
+        recount_steps();
+    }
+    
+    // Recalculates numeric labels on Step fields.
+    function recount_steps(){
+        var steps = document.getElementsByName('Step[]');
+        for (var i = 0; i < steps.length; ++i) {
+            var step = steps[i].parentNode.children[0].children[0];
+            step.innerHTML='Step ' + (i + 1);
+        }
+    }
+    
+    /*
+        Previews image selected in image uploader using method
+        presented in a Stack Overflow answer by user Ivan Baev.
+        Also uses the nextElementSibling property to help navigate
+        to the correct element, for which documentation is
+        provided by MDN Web Docs in 'Element.nextElementSibling.'
+        URLs to both of these resources are provided at the top of
+        this document.
+    */
+    function preview(uploader){
+        const [img] = uploader.files;
+        var children = uploader.parentNode.children;
+        var preview = uploader.parentNode.nextElementSibling.children[0];
+        if (img) {
+            children[3].value = "1" + children[3].value[1];
+            preview.src = URL.createObjectURL(img);
+        } else children[3].value = "0" + children[3].value[1];
+    }
+    
+    // Add a new field of a specific type
+    var add = function(type) {
+        var newField = document.createElement('div');
+        
+        var html_str;
+        switch (type) {
+          case 'Ingredient': html_str = `
+              {% include "wordofmouth/renderers/recipe_editor/components/ingredient.html" %}`;
+            break;
+          case 'Step': html_str = `
+              {% include "wordofmouth/renderers/recipe_editor/components/step.html" %}`;
+            break;
+          case 'Image': html_str = `
+              {% include "wordofmouth/renderers/recipe_editor/components/image.html" %}`;
+            break;
+        }
+        
+        newField.innerHTML = html_str;
+        document.getElementById('fields').appendChild(newField.children[0]);
+        recount_steps();
+    }
+    
+    // Rearrange fields on drag and drop
+    function item_drop(e) {
+        var fields = document.getElementsByClassName("recblock");
+        /*
+            Uses a bounding rectangle to find the screen positions
+            of each of the fields, following a Stack Overflow
+            answer by user Andy E. Also makes use of the
+            insertBefore property to allow elements to be rearranged,
+            as documented by MDN Web Docs in 'Node.insertBefore().'
+            URLs to both of these resources are provided at the top of
+            this document.
+        */
+        for (i = 0; i < fields.length; ++i) {
+            var rect = fields[i].getBoundingClientRect();
+            if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                var y_offset = e.clientY - rect.top;
+                e.srcElement.parentNode.insertBefore(e.srcElement, fields[i]);
+                if (y_offset > rect.height / 2) {
+                    e.srcElement.parentNode.insertBefore(fields[i], e.srcElement);
+                }
+                break;
+            }
+        }
+        recount_steps();
+    }
+</script>
+
+{% comment %}<!--
+  Uses enctype="multipart/form-data" to allow file binary
+  data to be sent to the server for image uploads, as
+  described by the MDN Web Docs in 'Sending form data,'
+  for which a URL has been provided at the top of this
+  document.
+-->{% endcomment %}
+<form method="post" enctype="multipart/form-data" action="#">
+  {% csrf_token %}
+  <ul class="list-group" id="fields">
+  <!-- add -->
+  {% if mode_ == 'add' %}
+  {% include "wordofmouth/renderers/recipe_editor/components/title.html" %}
+  {% include "wordofmouth/renderers/recipe_editor/components/intro.html" %}
+  {% include "wordofmouth/renderers/recipe_editor/components/time.html" %}
+  {% for i in '...' %}
+    {% include "wordofmouth/renderers/recipe_editor/components/ingredient.html" %}
+  {% endfor %}
+  {% include "wordofmouth/renderers/recipe_editor/components/step.html" %}
+  {% endif %}
+  <!---------->
+  <!-- edit/fork -->
+  {% if mode_ == 'edit' or mode_ == 'fork' %}
+  {% with input_=recipe.title %}
+  {% include "wordofmouth/renderers/recipe_editor/components/title.html" %}
+  {% endwith %}
+  {% with input_=recipe.intro %}
+  {% include "wordofmouth/renderers/recipe_editor/components/intro.html" %}
+  {% endwith %}
+  {% with input_=recipe.time %}
+  {% include "wordofmouth/renderers/recipe_editor/components/time.html" %}
+  {% endwith %}
+  {% for recipeblock in recipe.recipeblock_set.all %}
+    {% if recipeblock.isIngredient %}
+      {% with input_=recipeblock %}
+      {% include "wordofmouth/renderers/recipe_editor/components/ingredient.html" %}
+      {% endwith %}
+    {% endif %}
+    {% if recipeblock.isStep %}
+      {% with input_=recipeblock.text %}
+      {% include "wordofmouth/renderers/recipe_editor/components/step.html" %}
+      {% endwith %}
+    {% endif %}
+    {% if recipeblock.isImage %}
+      {% with input_=recipeblock %}
+      {% include "wordofmouth/renderers/recipe_editor/components/image.html" %}
+      {% endwith %}
+    {% endif %}
+  {% endfor %}
+  {% endif %}
+  <!--------------->
+  </ul>
+  <script>
+    recount_steps();
+  </script>
+
+  <div class="form-controls mt-3">
+    <button type='button' class='btn btn-primary ps-0' onclick='add("Ingredient")'>
+      {% bs_icon 'plus' size='1.5em' %} Ingredient
+    </button>
+    <button type='button' class='btn btn-primary ps-0' onclick='add("Step")'>
+      {% bs_icon 'plus' size='1.5em' %} Step
+    </button>
+    <button type='button' class='btn btn-primary ps-0' onclick='add("Image")'>
+      {% bs_icon 'plus' size='1.5em' %} Image
+    </button>
+    <button type='submit' class='btn btn-primary'>Save Recipe</button>
+  </div>
+</form>

@@ -1,0 +1,114 @@
+{% extends "wordofmouth/renderers/recipe_editor/components/base.html" %}
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: <input>: The Input (Form Input) element
+*  Author: MDN Web Docs
+*  Date: 4/25/2022
+*  Date Cited: 5/2/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: <input type="number">
+*  Author: MDN Web Docs
+*  Date: 4/14/2022
+*  Date Cited: 4/30/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1): https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (2): https://getbootstrap.com/docs/5.0/utilities/text/
+*  URL (3): https://getbootstrap.com/docs/5.0/forms/form-control/
+*  URL (4): https://getbootstrap.com/docs/5.0/utilities/flex/
+*  Software License: MIT License
+*
+*  Title: Stack Overflow answer to “How do I prevent drag on a child, but allow drag on the parent?”
+*  Author: Blixt (https://stackoverflow.com/users/119081/blixt)
+*  Date: 6/13/2011
+*  Date Cited: 4/30/2022
+*  URL: https://stackoverflow.com/questions/6325681/passing-a-user-request-to-forms
+*  Software License: CC BY-SA 3.0
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% block component %}
+{% comment %}<!--
+  Overrides some drag controls in child elements to prevent
+  the parent from being dragged by these children, following
+  from a Stack Overflow answer by user Blixt, for which the
+  relevant URL can be found at the top of this document.
+-->{% endcomment %}
+<div class="col">
+  <div class="row align-items-center">
+    <div class="col">
+      <b><label for="ingredient">Ingredient</label></b>
+      {% comment %}<!--
+        Enforces a character limit on text input, using
+        the MDN Web Docs for the Form Input element
+   -->{% endcomment %}
+      <input type="text"
+        class="form-control fields"
+        id="ingredient"
+        placeholder="Ingredient"
+        value="{{ input_.name }}"
+        maxlength="150"
+        name="Ingredient[]"
+        draggable="true"
+        ondragstart="event.preventDefault(), event.stopPropagation();"
+    >
+    </div>
+    {% comment %}<!--
+      Quantity clamped to [0, inf) in the following numeric
+      input, following the documentation provided by the MDN
+      Web Docs for '<input type="number">'. The relevant link
+      is provided at the top of this document.
+ -->{% endcomment %}
+    <div class="col-3">
+      <b><label for="quantity">Quantity</label></b>
+      <input type="number"
+        min="0"
+        step="0.01"
+        class="form-control fields"
+        id="quantity"
+        placeholder="Quantity"
+        value="{{ input_.quantity }}"
+        name="Quantity[]"
+        draggable="true"
+        ondragstart="event.preventDefault(), event.stopPropagation();"
+      >
+    </div>
+
+    <div class="col-3">
+      <b><label for="unit">Unit</label></b>
+      <input type="text"
+        class="form-control fields"
+        id="unit"
+        placeholder="Unit of Measure"
+        value="{{ input_.unit }}"
+        name="Unit[]"
+        maxlength="150"
+        draggable="true"
+        ondragstart="event.preventDefault(), event.stopPropagation();"
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

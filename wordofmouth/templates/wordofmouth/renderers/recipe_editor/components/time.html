@@ -1,0 +1,94 @@
+
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: <input type="number">
+*  Author: MDN Web Docs
+*  Date: 4/14/2022
+*  Date Cited: 4/30/2022
+*  URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number
+*  Software License: CC-BY-SA 2.5 or later
+*
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1): https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (2): https://getbootstrap.com/docs/5.0/components/list-group/
+*  URL (2): https://getbootstrap.com/docs/5.0/forms/form-control/
+*  Software License: MIT License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+{% load wordofmouth_extras %}
+
+<li class="list-group-item list-group-item-action">
+  <b><label>Expected Cook Time</label></b>
+  {% comment %}<!--
+    Time inputs clamped to [min, max] in the following
+    numeric inputs, following the documentation provided
+    by the MDN Web Docs for '<input type="number">'. The
+    relevant link is provided at the top of this document.
+-->{% endcomment %}
+  <div class="row align-items-center">
+    <div class="col">
+    <b><label for="days">Days</label></b>
+      <input type="number" class="form-control fields"
+        min="0"
+        max="364"
+        name="Time[days]"
+        id="days"
+        placeholder="0"
+        value="{{ input_.days }}"
+      >
+    </div>
+    <div class="col">
+      <b><label for="hours">Hours</label></b>
+      <input type="number" class="form-control fields"
+        min="0"
+        max="23"
+        name="Time[hours]"
+        id="hours"
+        placeholder="0"
+        value="{{ input_.seconds|div:3600 }}"
+      >
+    </div>
+    <div class="col">
+      <b><label for="minutes">Minutes</label></b>
+      <input type="number" class="form-control fields"
+        min="0"
+        max="59"
+        name="Time[minutes]"
+        id="minutes"
+        placeholder="0"
+        value="{{ input_.seconds|div:60|mod:60 }}"
+      >
+    </div>
+    <div class="col">
+      <b><label for="seconds">Seconds</label></b>
+      <input type="number" class="form-control fields"
+        min="0"
+        max="59"
+        name="Time[seconds]"
+        id="seconds"
+        placeholder="0"
+        value="{{ input_.seconds|mod:60 }}"
+      >
+    </div>
+  </div>
+</li>

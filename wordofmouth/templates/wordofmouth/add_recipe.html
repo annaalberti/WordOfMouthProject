@@ -1,0 +1,8 @@
+{% extends "wordofmouth/base-auth.html" %}
+
+{% block content %}
+<h1>Share your recipe:</h1>
+{% with mode_='add' %}
+{% include "wordofmouth/renderers/recipe_editor/main.html" %}
+{% endwith %}
+{% endblock %}

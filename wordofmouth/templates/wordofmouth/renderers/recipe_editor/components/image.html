@@ -1,0 +1,94 @@
+{% extends "wordofmouth/renderers/recipe_editor/components/base.html" %}
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1): https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (2): https://getbootstrap.com/docs/5.0/forms/form-control/
+*  URL (3): https://getbootstrap.com/docs/5.0/content/images/
+*  URL (4): https://getbootstrap.com/docs/5.0/utilities/text/
+*  Software License: MIT License
+*
+*  Title: Stack Overflow answer to “How do I prevent drag on a child, but allow drag on the parent?”
+*  Author: Blixt (https://stackoverflow.com/users/119081/blixt)
+*  Date: 6/13/2011
+*  Date Cited: 4/30/2022
+*  URL: https://stackoverflow.com/questions/6325681/passing-a-user-request-to-forms
+*  Software License: CC BY-SA 3.0
+*
+*  Title: Stack Overflow answer to “How to allow <input type="file"> to accept only image files?”
+*  Author: madcap laughs (https://stackoverflow.com/users/782518/madcap-laughs)
+*  Date: 6/3/2011
+*  Date Cited: 5/3/2022
+*  URL: https://stackoverflow.com/questions/3828554/how-to-allow-input-type-file-to-accept-only-image-files
+*  Software License: CC BY-SA 3.0
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% load static %}
+
+{% block component %}
+{% comment %}<!--
+  Overrides some drag controls in child elements to prevent
+  the parent from being dragged by these children, following
+  from a Stack Overflow answer by user Blixt. Also sets the
+  accept property to indicate that images should be uploaded,
+  following from a Stack Overflow answer by user madcap laughs.
+  Both relevant URLs can be found at the top of this document.
+-->{% endcomment %}
+<div class="col text-center">
+  <b><label for="file">Upload Image:</label></b>
+  <input
+    type="file"
+    accept="image/*"
+    class="form-control"
+    id="file"
+    name="Image[]"
+    draggable="true"
+    ondragstart="event.preventDefault(), event.stopPropagation();"
+    onchange="preview(this);"
+  >
+  <input type="hidden" name="OldImg[]" value="{{ input_.src }}">
+  <input
+    type="hidden"
+    name="Entry[]"
+    {% if input_ %}
+    value="01"
+    {% else %}
+    value="00"
+    {% endif %}
+  >
+</div>
+<div class="col-3 text-center">
+  {% if input_ %}
+  <img
+    class="img-fluid rounded"
+    src="{{ input_.src.url }}"
+    alt="PREVIEW"
+  >
+  {% else %}
+  <img
+    class="img-fluid rounded"
+    src="{% static 'wordofmouth/img/grey.jpg' %}"
+    alt="PREVIEW"
+  >
+  {% endif %}
+</div>
+{% endblock %}

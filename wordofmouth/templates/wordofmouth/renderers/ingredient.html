@@ -1,0 +1,15 @@
+{% comment %}<!--
+    Render 'function' for Ingredient 
+    
+    Inputs:
+        input_      Ingredient object to render
+-->{% endcomment %}
+
+{% if input_ %}
+{{ input_.name }}
+{% if input_.quantity %}
+ ({{ input_.quantity }}
+ {% if input_.unit %}
+  {{ input_.unit }}{% endif %})
+ {% endif %}
+{% else %}NULL{% endif %}

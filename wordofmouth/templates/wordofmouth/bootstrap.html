@@ -1,0 +1,260 @@
+<title>A17 WordOfMouth</title>
+{% extends "bootstrap5/bootstrap5.html" %}
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: Bootstrap 4 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2019
+*  Date Cited: 4/30/2022
+*  Code version: 4.3
+*  URL: https://getbootstrap.com/docs/4.3/getting-started/introduction/
+*  Software License: MIT License
+*
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1):  https://getbootstrap.com/docs/5.0/components/tooltips/
+*  URL (2):  https://getbootstrap.com/docs/5.0/utilities/spacing/
+*  URL (3):  https://getbootstrap.com/docs/5.0/components/buttons/
+*  URL (4):  https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (5):  https://getbootstrap.com/docs/5.0/utilities/flex/
+*  URL (6):  https://getbootstrap.com/docs/5.0/forms/form-control/
+*  URL (7):  https://getbootstrap.com/docs/5.0/utilities/text/
+*  URL (8):  https://getbootstrap.com/docs/5.0/utilities/shadows/
+*  URL (9):  https://getbootstrap.com/docs/5.0/utilities/borders/
+*  URL (10): https://getbootstrap.com/docs/5.0/utilities/background/
+*  Software License: MIT License
+*
+*  Title: django-bootstrap-icons
+*  Author: Christian Wiegand
+*  Date: 2022
+*  Date Cited: 4/30/2022
+*  Code version: 0.7.5
+*  URL: https://github.com/christianwgd/django-bootstrap-icons
+*  Software License: MIT License
+*
+*  Title: Building a Django Web App
+*  Author: Ordinary Coders
+*  Date: 2020
+*  Date Cited: 4/26/2022
+*  URL: https://ordinarycoders.com/django-bootstrap
+*  Software License: Copyright 2022 Ordinary Media, LLC
+*
+*  Title: MD Bootstrap 4 Documentation
+*  Author: MDB documentation writers
+*  Date: 2020
+*  Date Cited: 4/26/2022
+*  URL: https://mdbootstrap.com/docs/b4/jquery/navigation/footer/
+*  Software License: MIT License
+*
+*  Title: User Registration in Django using Google OAuth
+*  Author: Geoffrey Mungai
+*  Date: 12/18/2020
+*  Date Cited: 4/30/2022
+*  URL: https://github.com/section-engineering-education/engineering-education/blob/master/content/articles/django-google-oauth/index.md
+*  Software License: Apache-2.0 License
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the "Bootstrap 5
+  Documentation" at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% comment %}<!--
+  This document makes use of Bootstrap icons by means of
+  the "django-bootstrap-icons" library and its associated
+  template tags, the documentation of which can be found
+  at the relevant URL listed at the top of this document.
+-->{% endcomment %}
+
+{% load bootstrap5 %}
+{% load socialaccount %}
+{% load bootstrap_icons %}
+
+{% block bootstrap5_content %}
+<html>
+  <head>
+    {% comment %}<!--
+      Include Bootstrap 4.3 JavaScript dependancies, as listed by
+      'Bootstrap 4.3 Documentation' (Bootstrap 5.0 JS not working
+      properly with tooltips for unknown reasons)
+ -->{% endcomment %}
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" 
+      crossorigin="anonymous">
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" 
+      crossorigin="anonymous">
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
+      crossorigin="anonymous">
+    </script>
+  </head>
+  
+  <body style="background-color:#FFDDAA;">
+    {% comment %}<!--
+      The following navbar was adapted from code found on
+      ordinarycoders.com as part of a Django educational
+      course entitled "Building a Django Web App." 
+ -->{% endcomment %}
+    <nav class="navbar navbar-expand-sm navbar-light bg-light shadow mb-3 px-3">
+      <a class="navbar-brand" href="{% url "wordofmouth:index" %}">Home</a>
+      <button
+        class="navbar-toggler m-3"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarText"
+        aria-controls="navbarText"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            {% comment %}<!--
+              The following authentication template tag and login link,
+              as well as all future occurances of these elements in
+              this document, are sourced from "User Registration in
+              Django usingGoogle OAuth," an educational article
+              published as part of Section.io"s Engineering Education
+              Program.
+         -->{% endcomment %}
+            <a
+              class="nav-link"
+              {% if user.is_authenticated %}
+              href="{% url "wordofmouth:your_recipes" %}"
+              {% else %}
+              href="{% provider_login_url "google" %}"
+              {% endif %}
+            >
+              Your Recipes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              {% if user.is_authenticated %}
+              href="{% url "wordofmouth:add_recipe" %}"
+              {% else %}
+              href="{% provider_login_url "google" %}"
+              {% endif %}
+            >
+              Add Recipe
+            </a>
+          </li>
+        </ul>
+      </div>
+      <ul class="navbar-nav ml-auto">
+        <li>
+          <form class="d-flex" method=POST action="{% url "wordofmouth:search_recipes" %}">
+            {% csrf_token %}
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search Recipes"
+              aria-label="Search"
+              name="searched"
+            >
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+          </form>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href={% url "account_logout" %}>Log Out</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% provider_login_url "google" %}">Log In With Google</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <div class="container">
+      <center>
+        {% block auth %}{% endblock %}
+      </center>
+    </div>
+    
+    {% comment %}<!--
+      The following footer code was adapted from the "MD
+      Bootstrap 4 Documentation", including the basic 
+      structure of the footer and style classes. The
+      relevant URL is listed in the References section at
+      the top of this document.
+ -->{% endcomment %}
+    <footer class="page-footer pt-4 pb-2 px-2">
+      <div class="border p-5 mb-0 bg-light shadow">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm text-left">
+              <h6>Meet the creators</h6>
+              <a href="https://www.linkedin.com/in/peter-george-6a19601ab/">
+                {% bs_icon "linkedin" %} Peter George
+              </a>
+              <br>
+              <a href="https://www.linkedin.com/in/anna-c-alberti/">
+                {% bs_icon "linkedin" %} Anna Alberti
+              </a>
+              <br>
+              <a href="https://www.linkedin.com/in/siyang-sun-076592191/">
+                {% bs_icon "linkedin" %} Siyang Sun
+              </a>
+              <br>
+              <a href="https://www.linkedin.com/in/ryan-steele-4192b2235/">
+                {% bs_icon "linkedin" %} Ryan Steele
+              </a>
+              <br>
+              <a href="https://www.linkedin.com/in/allie-batchvarova-896937191/">
+                {% bs_icon "linkedin" %} Allie Batchvarova
+              </a> 
+            </div>
+            <div class="col-sm text-center">
+              <h6>About the project:</h6>
+              As a project for Advanced Software Development,
+              these UVA students set out to create Word of Mouth–a user-friendly,
+              convenient, and safe space to share recipes and learn from others.
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2022 Copyright: A-17 & Co.</div>
+      </div>
+    </footer>
+  </body>
+  <script>
+      /* 
+        Enable all tooltips using code provided by the
+        'Bootstrap 5 Documentation,' for which a URL
+        can be found at the top of this document.
+      */
+      var tooltipTriggerList = [].slice.call(
+          document.querySelectorAll("[data-bs-toggle='tooltip']")
+      );
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl, {
+              trigger: "hover",
+              placement: "top",
+          })
+      });
+  </script>
+</html>
+{% endblock %}

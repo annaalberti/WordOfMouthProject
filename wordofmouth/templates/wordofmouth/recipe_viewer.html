@@ -1,0 +1,216 @@
+{% comment %}<!--
+/***************************************************************************************
+*  REFERENCES
+*  Title: Bootstrap 5 Documentation
+*  Author: The Bootstrap team and contributors
+*  Date: 2021
+*  Date Cited: 4/30/2022
+*  Code version: 5.1.3
+*  URL (1): https://getbootstrap.com/docs/5.0/components/tooltips/
+*  URL (2): https://getbootstrap.com/docs/5.0/utilities/spacing/
+*  URL (3): https://getbootstrap.com/docs/5.0/components/buttons/
+*  URL (4): https://getbootstrap.com/docs/5.0/layout/grid/
+*  URL (5): https://getbootstrap.com/docs/5.0/utilities/flex/
+*  Software License: MIT License
+*  
+*  Title: django-bootstrap-icons
+*  Author: Christian Wiegand
+*  Date: 2022
+*  Date Cited: 4/30/2022
+*  Code version: 0.7.5
+*  URL: https://github.com/christianwgd/django-bootstrap-icons
+*  Software License: MIT License
+*
+*  Title: How To Create Dynamic Form Fields In Javascript
+*  Author: Abdul Basit
+*  Date: 1/24/2022
+*  Date Cited: 4/30/2022
+*  URL: https://toolsnull.com/code-solution/how-to-create-dynamic-form-fields-in-javascript
+*  Software License: Copyright 2021-2022 by ToolsNull
+*
+***************************************************************************************/
+-->{% endcomment %}
+
+{% comment %}<!--
+  Where they occur in this document, uses of Bootstrap
+  style classes for spacing (margin, padding), layouts
+  (flex, grid, img-fluid), justification and alignment,
+  buttons, forms, and graphical effects (shadow, rounded,
+  border, colors) were sourced from the 'Bootstrap 5
+  Documentation' at the relevant URLs listed at the top of
+  this document. Due to their ubiquitous use throughout
+  this project, individual uses of these classes shall not
+  be cited explicitly in an attempt to preserve readability.
+-->{% endcomment %}
+
+{% comment %}<!--
+  This document makes use of Bootstrap icons by means of
+  the 'django-bootstrap-icons' library and its associated
+  template tags, the documentation of which can be found
+  at the relevant URL listed at the top of this document.
+-->{% endcomment %}
+
+{% load socialaccount %}
+{% load bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% comment %}<!--
+  Inspired by the JavaScript-based dynamic form presented on
+  toolsnull.com in 'How To Create Dynamic Form Fields In
+  Javascript', which is used as the base of our recipe editor.
+-->{% endcomment %}
+<script>
+    // Dynamically generate recipe feed view
+    function generate_view(style) {
+        var content = document.getElementById('content');
+        if (style == 'PRIMARY') {
+            content.className = 'd-flex flex-wrap';
+            content.innerHTML = `
+            {% if list1_ %}
+            {% for recipe in list1_ %}
+            <div class='m-1'>
+              {% with input_=recipe display_=display1_ %}
+              {% include "wordofmouth/renderers/recipe.html" %}
+              {% endwith %}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% if mode_ == 'general' %}
+            <p>No Recent Recipe Submitted.</p>
+            {% endif %}
+            {% if mode_ == 'personal' %}
+            <p>No Personal Recipes.</p>
+            {% endif %}
+            {% endif %}`;
+        } else if (style == 'SECONDARY') {
+            {% if mode_ == 'general' %}
+            content.className = 'list-group';
+            {% endif %}
+            {% if mode_ == 'personal' %}
+            content.className = 'd-flex flex-wrap';
+            {% endif %}
+            content.innerHTML = `
+            {% if list2_ %}
+            {% for recipe in list2_ %}
+            {% if mode_ == 'personal' %}
+            <div class='m-1'>
+              {% with input_=recipe display_=display2_ %}
+              {% include "wordofmouth/renderers/recipe.html" %}
+              {% endwith %}
+            </div>
+            {% endif %}
+            {% if mode_ == 'general' %}
+            {% with input_=recipe display_=display2_ %}
+            {% include "wordofmouth/renderers/recipe.html" %}
+            {% endwith %}
+            <br>
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            {% if mode_ == 'general' %}
+            <p>No Recent Recipe Submitted.</p>
+            {% endif %}
+            {% if mode_ == 'personal' %}
+            <p>No Liked Recipes.</p>
+            {% endif %}
+            {% endif %}`;
+        }
+    }
+</script>
+
+{% if mode_ == 'general' %}
+<h1>WordOfMouth: a recipe sharing website</h1>
+{% endif %}
+{% comment %}<!--
+  The following authentication method is sourced from
+  'User Registration in Django usingGoogle OAuth,' an
+  educational article published as part of Section.io's
+  Engineering Education Program.
+-->{% endcomment %}
+{% if user.is_authenticated %}
+<p>
+  {% if mode_ == 'general' %}
+  Welcome to WordOfMouth!
+  {% endif %}
+  You are logged in as {{ user.username }}
+</p>
+{% endif %}
+{% if mode_ == 'personal' %}
+<h1>Your Recipes</h1>
+{% endif %}
+
+<!-- prepare feed content area  -->
+<div class="row justify-content-end align-items-center">
+  {% if mode_ == 'general' %}
+  <div class="col">
+    <h2>Top Recipes</h2>
+  </div>
+  {% endif %}
+  {% comment %}<!--
+    The following button system has tooltips enabled, created
+    by following the 'Bootstrap 5 Documentation,' the relevant
+    links for which can be found at the top of this document.
+-->{% endcomment %}
+  <div class="col-auto">
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label
+    class="btn btn-primary active"
+    data-bs-toggle="tooltip"
+    {% if mode_ == 'general' %}
+    title="View as Grid"
+    {% endif %}
+    {% if mode_ == 'personal' %}
+    title="View Personal Recipes"
+    {% endif %}
+  >
+    <input
+      class="d-none"
+      type="radio"
+      name="options"
+      id="option1"
+      autocomplete="off"
+      onchange='generate_view("PRIMARY")'
+      checked
+    >
+      {% if mode_ == 'general' %}
+      {% bs_icon 'grid-3x3-gap' size='1.5em' %}
+      {% endif %}
+      {% if mode_ == 'personal' %}
+      {% bs_icon 'person' size='1.5em' %}
+      {% endif %}
+  </label>
+  <label
+    class="btn btn-primary"
+    data-bs-toggle="tooltip"
+    {% if mode_ == 'general' %}
+    title="View as List"
+    {% endif %}
+    {% if mode_ == 'personal' %}
+    title="View Liked Recipes"
+    {% endif %}
+  >
+    <input
+      class="d-none"
+      type="radio"
+      name="options"
+      id="option2"
+      autocomplete="off"
+      onchange='generate_view("SECONDARY")'
+    >
+      {% if mode_ == 'general' %}
+      {% bs_icon 'list-ul' size='1.5em' %}
+      {% endif %}
+      {% if mode_ == 'personal' %}
+      {% bs_icon 'heart' size='1.5em' %}
+      {% endif %}
+  </label>
+</div>
+  </div>
+</div>
+
+<div id='content'></div>
+
+<script>
+    // Generate default view
+    generate_view('PRIMARY');
+</script>
